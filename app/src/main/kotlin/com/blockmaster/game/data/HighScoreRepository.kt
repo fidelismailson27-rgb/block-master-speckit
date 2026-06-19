@@ -1,16 +1,18 @@
 package com.blockmaster.game.data
 
-import java.nio.file.Files
-import java.nio.file.Path
+import java.io.File
 
-class HighScoreRepository(private val path: Path) {
+class HighScoreRepository(private val filePath: String) {
+    private val file = File(filePath)
+
     fun saveHighScore(score: Int) {
-        Files.writeString(path, score.toString())
+        file.parentFile?.mkdirs()
+        file.writeText(score.toString())
     }
 
     fun loadHighScore(): Int {
-        return if (Files.exists(path)) {
-            Files.readString(path).trim().toIntOrNull() ?: 0
+        return if (file.exists()) {
+            file.readText().trim().toIntOrNull() ?: 0
         } else 0
     }
 }
