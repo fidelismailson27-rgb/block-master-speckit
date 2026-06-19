@@ -7,7 +7,7 @@ import com.blockmaster.game.model.emptyBoard
 
 class GameEngine(private val cols: Int = 10, private val rows: Int = 20) {
     private val board = Board(cols, rows)
-    private val generator = PieceGenerator()
+    private var generator = PieceGenerator()
     private var current: PieceInstance? = null
     private var next: TetrominoType = generator.next()
     var score: Int = 0
@@ -17,6 +17,18 @@ class GameEngine(private val cols: Int = 10, private val rows: Int = 20) {
 
     fun start() {
         spawnNext()
+    }
+
+    fun reset() {
+        // reset engine state to initial
+        generator = PieceGenerator()
+        board.clearAll()
+        current = null
+        next = generator.next()
+        score = 0
+        level = 0
+        lines = 0
+        isGameOver = false
     }
 
     fun startAndGetState(): GameState {

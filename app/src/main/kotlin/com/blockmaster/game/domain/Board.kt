@@ -40,4 +40,10 @@ class Board(val cols: Int = 10, val rows: Int = 20) {
     }
 
     fun toArray(): Array<IntArray> = Array(rows) { r -> grid[r].copyOf() }
+
+    fun clearAll() {
+        for (r in 0 until rows) {
+            for (c in 0 until cols) grid[r][c] = 0
+        }
+    }
 }

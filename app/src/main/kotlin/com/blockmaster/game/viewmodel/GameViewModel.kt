@@ -26,10 +26,8 @@ class GameViewModel(private val engine: GameEngine = GameEngine()) {
 
     fun restart() {
         scope.launch {
-            // re-create engine state by creating new engine
-            // In real implementation, engine.reset() would be used
-            val e = GameEngine()
-            _uiState.value = e.startAndGetState()
+            engine.reset()
+            _uiState.value = engine.startAndGetState()
         }
     }
 
