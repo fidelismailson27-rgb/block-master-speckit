@@ -4,6 +4,8 @@ import com.blockmaster.game.model.GameState
 import com.blockmaster.game.model.PieceInstance
 import com.blockmaster.game.model.TetrominoType
 import com.blockmaster.game.model.emptyBoard
+import com.blockmaster.game.domain.LevelSystem
+import com.blockmaster.game.domain.ScoringSystem
 
 class GameEngine(private val cols: Int = 10, private val rows: Int = 20) {
     private val board = Board(cols, rows)
@@ -62,14 +64,10 @@ class GameEngine(private val cols: Int = 10, private val rows: Int = 20) {
             lockPiece(cur)
             val cleared = board.clearFullLines()
             lines += cleared
-            // simplistic scoring
-            if (cleared > 0) score += when (cleared) {
-                1 -> 100
-                2 -> 300
-                3 -> 500
-                4 -> 800
-                else -> cleared * 200
-            }
+            // update level
+            level = LevelSystem.levelForLines(lines)
+            // scoring
+            if (cleared > 0) score += ScoringSystem.scoreForClear(cleared, level)
             spawnNext()
         }
         return toState()
@@ -94,13 +92,8 @@ class GameEngine(private val cols: Int = 10, private val rows: Int = 20) {
                 lockPiece(p)
                 val cleared = board.clearFullLines()
                 lines += cleared
-                if (cleared > 0) score += when (cleared) {
-                    1 -> 100
-                    2 -> 300
-                    3 -> 500
-                    4 -> 800
-                    else -> cleared * 200
-                }
+                level = LevelSystem.levelForLines(lines)
+                if (cleared > 0) score += ScoringSystem.scoreForClear(cleared, level)
                 spawnNext()
             }
         }

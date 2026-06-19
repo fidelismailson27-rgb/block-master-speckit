@@ -1,33 +1,54 @@
 package com.blockmaster.game.viewmodel
 
 import com.blockmaster.game.domain.GameEngine
+import com.blockmaster.game.domain.LevelSystem
 import com.blockmaster.game.model.GameState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class GameViewModel(private val engine: GameEngine = GameEngine()) {
     private val scope = CoroutineScope(Dispatchers.Default)
-    private val _uiState = MutableStateFlow(engine.startAndGetState())
+    private val _uiState = MutableStateFlow(engine.getState())
     val uiState: StateFlow<GameState> = _uiState
 
+    private var loopJob: Job? = null
+    @Volatile private var paused: Boolean = false
+
     fun start() {
-        scope.launch {
+        if (loopJob?.isActive == true) return
+        loopJob = scope.launch {
             engine.start()
-            _uiState.value = engine.stepGravity()
+            _uiState.value = engine.getState()
+            while (!engine.isGameOver) {
+                if (paused) {
+                    delay(100L)
+                    continue
+                }
+                _uiState.value = engine.stepGravity()
+                val delayMs = LevelSystem.gravityMsForLevel(engine.level)
+                delay(delayMs)
+            }
+            // final state
+            _uiState.value = engine.getState()
         }
     }
 
     fun pauseToggle() {
-        // simple placeholder: not implemented
+        paused = !paused
     }
 
     fun restart() {
         scope.launch {
+            loopJob?.cancel()
             engine.reset()
             _uiState.value = engine.startAndGetState()
+            paused = false
+            start()
         }
     }
 
