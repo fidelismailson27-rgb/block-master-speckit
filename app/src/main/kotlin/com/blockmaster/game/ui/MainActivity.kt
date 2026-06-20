@@ -55,10 +55,11 @@ class MainActivity : AppCompatActivity() {
                 linesText.text = "Lines: ${state.lines}"
                 nextPieceText.text = "Next: ${state.next?.name ?: "-"}"
 
-                updateBoard(state.board)
+                updateBoard(state)
             }
         }
 
+        // ensure game starts when activity becomes visible
         viewModel.start()
     }
 
@@ -83,10 +84,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateBoard(board: Array<IntArray>) {
+    private fun updateBoard(state: com.blockmaster.game.model.GameState) {
+        val board = state.board
         // board is rows x cols
         val rows = board.size
         val cols = if (rows>0) board[0].size else 0
+        // First draw locked cells
         for (r in 0 until rows) {
             for (c in 0 until cols) {
                 val idx = r*cols + c
@@ -94,6 +97,22 @@ class MainActivity : AppCompatActivity() {
                 val view = cellViews.getOrNull(idx) ?: continue
                 if (cell == 0) view.setBackgroundColor(Color.BLACK)
                 else view.setBackgroundColor(colorFor(cell))
+            }
+        }
+        // Then overlay current falling piece
+        val cur = state.current
+        if (cur != null) {
+            // get offsets for piece
+            val offsets = com.blockmaster.game.domain.RotationSystem.getOffsets(cur.type, cur.rotation)
+            for ((dx, dy) in offsets) {
+                val x = cur.x + dx
+                val y = cur.y + dy
+                if (y in 0 until rows && x in 0 until cols) {
+                    val idx = y*cols + x
+                    val v = cellViews.getOrNull(idx) ?: continue
+                    // current piece uses type index = ordinal+1
+                    v.setBackgroundColor(colorFor(cur.type.ordinal + 1))
+                }
             }
         }
     }
