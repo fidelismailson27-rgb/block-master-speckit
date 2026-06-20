@@ -28,22 +28,24 @@ class MainActivity : AppCompatActivity() {
         val linesText: TextView = findViewById(R.id.linesText)
         val nextPieceText: TextView = findViewById(R.id.nextPieceText)
 
-        val leftButton: Button = findViewById(R.id.leftButton)
-        val rightButton: Button = findViewById(R.id.rightButton)
-        val rotateButton: Button = findViewById(R.id.rotateButton)
-        val softDropButton: Button = findViewById(R.id.softDropButton)
-        val hardDropButton: Button = findViewById(R.id.hardDropButton)
+        val dpadUp: Button = findViewById(R.id.dpad_up)
+        val dpadLeft: Button = findViewById(R.id.dpad_left)
+        val dpadRight: Button = findViewById(R.id.dpad_right)
+        val dpadDown: Button = findViewById(R.id.dpad_down)
+        val rotateBtn: Button = findViewById(R.id.btn_rotate)
+        val hardDropBtn: Button = findViewById(R.id.btn_harddrop)
         val pauseButton: Button = findViewById(R.id.pauseButton)
         val restartButton: Button = findViewById(R.id.restartButton)
 
         // initialize grid cells
         initGrid()
 
-        leftButton.setOnClickListener { viewModel.moveLeft() }
-        rightButton.setOnClickListener { viewModel.moveRight() }
-        rotateButton.setOnClickListener { viewModel.rotateClockwise() }
-        softDropButton.setOnClickListener { viewModel.softDrop() }
-        hardDropButton.setOnClickListener { viewModel.hardDrop() }
+        dpadLeft.setOnClickListener { viewModel.moveLeft() }
+        dpadRight.setOnClickListener { viewModel.moveRight() }
+        dpadDown.setOnClickListener { viewModel.softDrop() }
+        dpadUp.setOnClickListener { viewModel.rotateClockwise() }
+        rotateBtn.setOnClickListener { viewModel.rotateClockwise() }
+        hardDropBtn.setOnClickListener { viewModel.hardDrop() }
         pauseButton.setOnClickListener { viewModel.pauseToggle() }
         restartButton.setOnClickListener { viewModel.restart() }
 

@@ -2,4 +2,6 @@
 <resources>
     <color name="purple_500">#6200EE</color>
     <color name="purple_700">#3700B3</color>
+    <color name="dpad_gray">#37474F</color>
+    <color name="dpad_purple">#5E35B1</color>
 </resources>

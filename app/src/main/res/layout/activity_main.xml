@@ -81,39 +81,92 @@
         android:gravity="center"
         android:layout_marginTop="12dp">
 
-        <Button
-            android:id="@+id/leftButton"
+        <!-- D-pad styled as 3x3 grid -->
+        <GridLayout
+            android:id="@+id/dpadGrid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Left" />
+            android:columnCount="3"
+            android:rowCount="3">
 
-        <Button
-            android:id="@+id/rotateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rotate"
-            android:layout_marginStart="8dp" />
+            <View
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
 
-        <Button
-            android:id="@+id/rightButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Right"
-            android:layout_marginStart="8dp" />
+            <Button
+                android:id="@+id/dpad_up"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/dpad_button"
+                android:text="" />
 
-        <Button
-            android:id="@+id/softDropButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Soft Drop"
-            android:layout_marginStart="8dp" />
+            <View
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
 
-        <Button
-            android:id="@+id/hardDropButton"
+            <Button
+                android:id="@+id/dpad_left"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/dpad_button"
+                android:text="" />
+
+            <View
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+
+            <Button
+                android:id="@+id/dpad_right"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/dpad_button"
+                android:text="" />
+
+            <View
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+
+            <Button
+                android:id="@+id/dpad_down"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/dpad_button"
+                android:text="" />
+
+            <View
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+
+        </GridLayout>
+
+        <!-- Action buttons: Rotate and Hard Drop -->
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hard Drop"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="24dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btn_rotate"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/circular_button"
+                android:text="R" />
+
+            <Button
+                android:id="@+id/btn_harddrop"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/circular_button"
+                android:text="↓" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
